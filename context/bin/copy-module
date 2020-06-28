@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export MODULE="${1}"
+
+
+cp -a "metricbeat/module/${MODULE}" /var/lib/beatbox/modules
