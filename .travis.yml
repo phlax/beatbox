@@ -1,0 +1,33 @@
+# https://travis-ci.org/#!/phlax/beatbox
+
+dist: bionic
+
+env:
+  jobs:
+    - BEATS_BRANCH=7.x
+    - BEATS_BRANCH=master
+
+install:
+  - make image
+
+script:
+  - docker images
+  - mkdir modules
+  - docker run -v `pwd`/modules:/var/lib/beatbox/modules phlax/beatbox:$BEATS_BRANCH create-metricset mymodule mymetric
+  - ls modules/mymodule
+  - ls modules/mymodule/mymetric
+
+  - docker run -v `pwd`/modules:/var/lib/beatbox/modules phlax/beatbox:$BEATS_BRANCH copy-module redis
+  - ls modules/redis
+
+
+before_deploy:
+  - echo $DOCKER_ACCESS_TOKEN | docker login -u phlax --password-stdin
+
+deploy:
+  provider: script
+  script: make hub-image
+  skip_cleanup: true
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^(master)$
