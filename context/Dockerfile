@@ -28,16 +28,14 @@ RUN APT_INSTALL="apt install -y -qq --no-install-recommends" \
 	        git \
 	        libpcap0.8-dev \
 	        python3-venv \
-	&& go get -u -d github.com/magefile/mage \
-	&& cd $GOPATH/src/github.com/magefile/mage \
-	&& go run bootstrap.go \
 	&& mkdir -p $GOPATH/src/github.com/elastic
 
 RUN cd $GOPATH/src/github.com/elastic \
 	&& git clone https://github.com/elastic/beats \
 	&& cd beats \
 	&& git checkout $BEATS_BRANCH \
-        && PATH=$PATH:$GOPATH/bin \
+	&& PATH=$PATH:$GOPATH/bin \
+	&& make mage \
 	&& make update \
 	&& go clean \
         && mage -clean \
