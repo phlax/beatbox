@@ -10,7 +10,7 @@ FROM $BUILD_FROM
 MAINTAINER Ryan Northey <ryan@synca.io>
 
 ENV GOPATH=/var/lib/beatbox \
-    PATH="${PATH}:${GOPATH}/bin:"
+    PATH="${PATH}:${GOPATH}/bin"
 
 RUN APT_INSTALL="apt install -y -qq --no-install-recommends" \
         && apt update \
@@ -35,7 +35,6 @@ RUN cd $GOPATH/src/github.com/elastic \
 	&& git clone https://github.com/elastic/beats \
 	&& cd beats \
 	&& git checkout $BEATS_BRANCH \
-	&& PATH=$PATH:$GOPATH/bin \
 	&& make mage \
 	&& make update \
 	&& go clean \
