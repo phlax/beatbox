@@ -9,9 +9,7 @@ FROM $BUILD_FROM
 
 MAINTAINER Ryan Northey <ryan@synca.io>
 
-ARG BEATS_BRANCH=master
 ENV GOPATH=/var/lib/beatbox \
-    BEATS_BRANCH=$BEATS_BRANCH \
     PATH="${PATH}:${GOPATH}/bin:"
 
 RUN APT_INSTALL="apt install -y -qq --no-install-recommends" \
@@ -29,6 +27,9 @@ RUN APT_INSTALL="apt install -y -qq --no-install-recommends" \
 	        libpcap0.8-dev \
 	        python3-venv \
 	&& mkdir -p $GOPATH/src/github.com/elastic
+
+ARG BEATS_BRANCH=master
+ENV BEATS_BRANCH=$BEATS_BRANCH
 
 RUN cd $GOPATH/src/github.com/elastic \
 	&& git clone https://github.com/elastic/beats \

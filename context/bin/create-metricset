@@ -1,6 +1,5 @@
 #!/bin/sh
 
-export PATH=$PATH:$GOPATH/bin
 export MODULE="${1}"
 export METRICSET="${2}"
 

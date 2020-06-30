@@ -1,7 +1,10 @@
 #!/bin/sh
 
 
-export PATH=$PATH:/usr/lib/go-1.13/bin:$GOPATH/bin
+echo "Fetching latest beats src"
+cd "$GOPATH/src/github/elastic/beats"
+git fetch origin
+git rebase "origin/$BEATS_BRANCH"
 
 if [ -d /var/lib/beatbox/extra ]; then
     echo "COPYING EXTRA BEATS..."
